@@ -16,7 +16,7 @@ abstract class Transport
     public function __construct(?string $name, ?int $speed)
     {
         $this->name = $name;
-        $this->validateNegativeNumber($speed, 'Швидкість не може бути від\'ємною.');
+        $this->validateNegativeNumber($speed, 'Швидкість не може бути від\'ємною. ');
         $this->speed = $speed;
     }
 
