@@ -81,7 +81,7 @@ class Car extends Transport
         } else {
             echo "Назва: " . $this->getName() . PHP_EOL;
             echo "Кількість дверей: " . $this->getNumDoors() . PHP_EOL;
-            echo "Максимальна швидкість: " . $this->getSpeed() . " км/год" . PHP_EOL;
+            echo "Максимальна швидкість: " . $this->getSpeed() . " км/год " . PHP_EOL;
             echo $this->startEngine() . PHP_EOL;
         }
         echo PHP_EOL;
@@ -95,7 +95,7 @@ class Bicycle extends Transport
     public function __construct($name = null, $speed = null, $numGears = null)
     {
         parent::__construct($name, $speed);
-        $this->validateNegativeNumber($numGears, 'Кількість передач не може бути від\'ємною. ');
+        $this->validateNegativeNumber($numGears, 'Кількість передач не може бути від\'ємною.');
         $this->numGears = $numGears;
     }
 
