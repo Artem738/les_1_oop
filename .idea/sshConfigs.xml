@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SshConfigs">
+    <configs>
+      <sshConfig connectionConfig="{&quot;serverAliveInterval&quot;:300}" host="192.168.56.56" id="70b3809b-3a4c-4a0d-ba24-4d6b2bc42d1e" keyPath="$USER_HOME$/.ssh/id_rsa" port="22" customName="vagrant" nameFormat="CUSTOM" username="vagrant" useOpenSSHConfig="true">
+        <option name="customName" value="vagrant" />
+      </sshConfig>
+    </configs>
+  </component>
+</project>
