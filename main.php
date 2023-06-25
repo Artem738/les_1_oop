@@ -38,7 +38,7 @@ abstract class Transport
 
     public function setSpeed($speed): static
     {
-        $this->validateNegativeNumber($speed, 'Швидкість не може бути від\'ємною.');
+        $this->validateNegativeNumber($speed, 'Швидкість не може бути від\'ємною. ');
         $this->speed = $speed;
         return $this;
     }
