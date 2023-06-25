@@ -95,7 +95,7 @@ class Bicycle extends Transport
     public function __construct($name = null, $speed = null, $numGears = null)
     {
         parent::__construct($name, $speed);
-        $this->validateNegativeNumber($numGears, 'Кількість передач не може бути від\'ємною.');
+        $this->validateNegativeNumber($numGears, 'Кількість передач не може бути від\'ємною. ');
         $this->numGears = $numGears;
     }
 
