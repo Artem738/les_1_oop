@@ -138,12 +138,9 @@ $car->setName('Автомобіль')->setSpeed(200)->setNumDoors(4);
 $bicycle = new Bicycle();
 $bicycle->setName('Велосипед')->setSpeed(30)->setNumGears(6);
 
-
-
 $boat = new Boat();
 $boat->setName('Човен')->setSpeed(40)->setBoatType('Моторний');
 $boat->dropAnchor();
-
 
 $transports = [$car, $bicycle, $boat];
 displayTransportInfo($transports);
