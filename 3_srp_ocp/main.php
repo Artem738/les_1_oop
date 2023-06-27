@@ -206,7 +206,7 @@ class OrderProcessor
                 PDFReportGenerator::generateReport($order);
                 break;
             default:
-                echo "Невідомий тип заказу";
+                echo "Помилка! Невідомий тип заказу";
                 break;
         }
     }
