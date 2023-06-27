@@ -10,19 +10,23 @@ abstract class Transport
         $this->name = $name;
         return $this;
     }
+
     public function getName(): string
     {
         return $this->name;
     }
+
     public function setSpeed(int $speed): self
     {
         $this->speed = $speed;
         return $this;
     }
+
     public function getSpeed(): int
     {
         return $this->speed;
     }
+
     abstract public function displayInfo(): void;
 }
 
