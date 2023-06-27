@@ -234,7 +234,7 @@ class DeliveryOrderHandler implements OrderHandlerInterface
     }
 }
 
-/* ORDER REPORT */
+/* ORDER REPORT  */
 
 interface ReportGeneratorInterface
 {
