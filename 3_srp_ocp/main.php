@@ -302,9 +302,9 @@ DataManager::saveData($firstOrder->getData());
 DataManager::displayData($secondOrder->getData());
 
 
-$user = new User(1, "Vasiliy", 12345, "user", "vasvas12345@gmail.com");
+$user = new User(1, "Vasiliy", "12345", "user", "vasvas12345@gmail.com");
 $user->displayProfileInfo();
-echo $user->authenticate("vasvas12345@gmail.com", 12345);
+echo $user->authenticate("vasvas12345@gmail.com", "12345");
 
 
 
