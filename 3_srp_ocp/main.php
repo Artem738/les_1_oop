@@ -5,9 +5,8 @@
 
 class User
 {
-
     public function __construct(
-        protected int    $id,
+        protected        $id,
         protected string $username,
         protected string $password,
         protected string $role,
@@ -59,10 +58,13 @@ class User
     {
         $this->email = $email;
     }
+}
 
-    public function authenticate(string $email, string $password): bool
+class UserAuthenticator
+{
+    public static function authenticate(string $email, string $password, User $user): bool
     {
-        if ($this->email === $email && $this->password === $password) {
+        if ($user->getEmail() === $email && $user->getPassword() === $password) {
             echo 'Успішна аутентифікація.' . PHP_EOL;
             return true;
         } else {
@@ -70,15 +72,18 @@ class User
             return false;
         }
     }
+}
 
-    public function displayProfileInfo(): void
+class UserProfile
+{
+    public static function displayProfileInfo(User $user): void
     {
         echo PHP_EOL;
         echo "Інформація про користувача:" . PHP_EOL;
-        echo "ID: " . $this->id . PHP_EOL;
-        echo "Ім'я користувача: " . $this->username . PHP_EOL;
-        echo "Роль: " . $this->role . PHP_EOL;
-        echo "Email: " . $this->email . PHP_EOL;
+        echo "ID: " . $user->getId() . PHP_EOL;
+        echo "Ім'я користувача: " . $user->getUsername() . PHP_EOL;
+        echo "Роль: " . $user->getRole() . PHP_EOL;
+        echo "Email: " . $user->getEmail() . PHP_EOL;
     }
 }
 
@@ -167,18 +172,21 @@ class Order
         return $this->type;
     }
 
+    public function setType(string $type): void
+    {
+        $this->type = $type;
+    }
+
     public function getData(): string
     {
         return $this->data;
     }
 
-    public function displayOrderInfo(): void
+    public function setData(string $data): void
     {
-        echo 'Інформація про замовлення:' . PHP_EOL;
-        echo 'ID: ' . $this->getId() . PHP_EOL;
-        echo 'Тип: ' . $this->getType() . PHP_EOL;
-        echo 'Дані: ' . $this->getData() . PHP_EOL;
+        $this->data = $data;
     }
+
 }
 
 class OrderProcessor
@@ -203,6 +211,15 @@ class OrderProcessor
                 break;
         }
     }
+
+    public static function displayOrderInfo(Order $order): void
+    {
+        echo 'Інформація про замовлення:' . PHP_EOL;
+        echo 'ID: ' . $order->getId() . PHP_EOL;
+        echo 'Тип: ' . $order->getType() . PHP_EOL;
+        echo 'Дані: ' . $order->getData() . PHP_EOL;
+    }
+
 }
 
 interface OrderHandlerInterface
@@ -222,7 +239,7 @@ class ServiceOrderHandler implements OrderHandlerInterface
 {
     public static function processOrder(Order $order): void
     {
-        echo "Обробка замовлення №" . $order->getId() . " на послугу з типом" . $order->getType() . PHP_EOL;
+        echo "Обробка замовлення №" . $order->getId() . " на послугу з типом " . $order->getType() . PHP_EOL;
     }
 }
 
@@ -230,7 +247,7 @@ class DeliveryOrderHandler implements OrderHandlerInterface
 {
     public static function processOrder(Order $order): void
     {
-        echo "Обробка замовлення на доставку з типом" . $order->getType() . PHP_EOL;
+        echo "Обробка замовлення на доставку з типом " . $order->getType() . PHP_EOL;
     }
 }
 
@@ -277,7 +294,7 @@ $firstOrder = new Order(1, "product", "Якісь данні щодо замов
 $secondOrder = new Order(2, "service", "Якісь данні щодо замовленя сервісу");
 
 //Показуємо інформацію по замовленню
-$firstOrder->displayOrderInfo();
+OrderProcessor::displayOrderInfo($firstOrder);
 
 // Робимо звіт без замовлення
 PDFReportGenerator::generateReport($secondOrder);
@@ -303,5 +320,5 @@ DataManager::displayData($secondOrder->getData());
 
 
 $user = new User(1, "Vasiliy", "12345", "user", "vasvas12345@gmail.com");
-$user->displayProfileInfo();
-echo $user->authenticate("vasvas12345@gmail.com", "12345");
+UserProfile::displayProfileInfo($user);
+echo UserAuthenticator::authenticate("vasvas12345@gmail.com", "12345", $user);
