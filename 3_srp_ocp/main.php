@@ -1,12 +1,10 @@
 <?php
 
-
 /* USER */
-
 class User
 {
     public function __construct(
-        protected        $id,
+        protected int    $id,
         protected string $username,
         protected string $password,
         protected string $role,
