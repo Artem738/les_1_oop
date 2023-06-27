@@ -1,6 +1,7 @@
 <?php
 
 /* USER */
+
 class User
 {
     public function __construct(
