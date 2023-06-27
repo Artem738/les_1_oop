@@ -112,12 +112,12 @@ class CSVFileReader implements FileReaderInterface
 
 interface FileWriterInterface
 {
-    public function writeFile(string $filename, $data): bool;
+    public function writeFile(string $filename, string $data): bool;
 }
 
 class TextFileWriter implements FileWriterInterface
 {
-    public function writeFile(string $filename, $data): bool
+    public function writeFile(string $filename, string $data): bool
     {
         echo "Запись данных в файл типа txt: $filename" . PHP_EOL;
         return true;
@@ -126,7 +126,7 @@ class TextFileWriter implements FileWriterInterface
 
 class CSVFileWriter implements FileWriterInterface
 {
-    public function writeFile(string $filename, $data): bool
+    public function writeFile(string $filename, string $data): bool
     {
         echo "Запись данных в файл типа csv: $filename" . PHP_EOL;
         return true;
@@ -143,7 +143,7 @@ class FileReader
 
 class FileWriter
 {
-    public static function writeFile($fileWriter, string $filename, $data): bool
+    public static function writeFile($fileWriter, string $filename, string $data): bool
     {
         return $fileWriter->writeFile($filename, $data);
     }
