@@ -2,6 +2,7 @@
 
 
 /* USER */
+
 class User
 {
 
@@ -83,6 +84,7 @@ class User
 
 
 /* FILE */
+
 interface FileReaderInterface
 {
     public function readFile(string $filename): string;
@@ -145,10 +147,11 @@ class FileWriter
 
 
 /* ORDER */
+
 class Order
 {
     public function __construct(
-        protected int $id,
+        protected int    $id,
         protected string $type,
         protected string $data
     ) {
@@ -158,14 +161,17 @@ class Order
     {
         return $this->id;
     }
+
     public function getType(): string
     {
         return $this->type;
     }
+
     public function getData(): string
     {
         return $this->data;
     }
+
     public function displayOrderInfo(): void
     {
         echo 'Інформація про замовлення:' . PHP_EOL;
@@ -203,11 +209,12 @@ interface OrderHandlerInterface
 {
     public static function processOrder(Order $order): void;
 }
+
 class ProductOrderHandler implements OrderHandlerInterface
 {
     public static function processOrder(Order $order): void
     {
-        echo "Обробка замовлення №". $order->getId() ." на товар з типом ". $order->getType() . PHP_EOL;
+        echo "Обробка замовлення №" . $order->getId() . " на товар з типом " . $order->getType() . PHP_EOL;
     }
 }
 
@@ -215,7 +222,7 @@ class ServiceOrderHandler implements OrderHandlerInterface
 {
     public static function processOrder(Order $order): void
     {
-        echo "Обробка замовлення №". $order->getId() ." на послугу з типом". $order->getType() . PHP_EOL;
+        echo "Обробка замовлення №" . $order->getId() . " на послугу з типом" . $order->getType() . PHP_EOL;
     }
 }
 
@@ -223,11 +230,12 @@ class DeliveryOrderHandler implements OrderHandlerInterface
 {
     public static function processOrder(Order $order): void
     {
-        echo "Обробка замовлення на доставку з типом". $order->getType() . PHP_EOL;
+        echo "Обробка замовлення на доставку з типом" . $order->getType() . PHP_EOL;
     }
 }
 
 /* ORDER REPORT */
+
 interface ReportGeneratorInterface
 {
     public static function generateReport(Order $order): void;
@@ -250,6 +258,7 @@ class CSVReportGenerator implements ReportGeneratorInterface
 }
 
 /* DATA */
+
 class DataManager
 {
     public static function saveData($data): void
@@ -264,7 +273,7 @@ class DataManager
 }
 
 /* Приклади використання */
-$firstOrder = new Order(1,"product", "Якісь данні щодо замовленя продукту");
+$firstOrder = new Order(1, "product", "Якісь данні щодо замовленя продукту");
 $secondOrder = new Order(2, "service", "Якісь данні щодо замовленя сервісу");
 
 //Показуємо інформацію по замовленню
