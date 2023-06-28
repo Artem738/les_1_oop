@@ -52,7 +52,7 @@ class OrderProcessor
 
     public function processOrder(Order $order): void
     {
-        // Обробка замовлення за допомогою обробника
+        // Обробка замовлення за допомогою хендлера
         $this->orderHandler->processOrder($order);
         // Генерація звіту за допомогою генератора
         $this->reportGenerator->generateReport($order);
@@ -117,21 +117,42 @@ class CSVReportGenerator implements ReportGeneratorInterface
     }
 }
 
-$order = new Order(1, 'product', 'Дані про замовлення на товар');
+// Функція для автоматичної обробки процесів яку треба налаштовувати у разі змін.
+function processOrder(Order $order): void
+{
+    // Масив з відповідностями типів замовлення обробникам та генераторам звіту
+    $handlers = [
+        'product' => new ProductOrderHandler(),
+        'service' => new ServiceOrderHandler(),
+        'delivery' => new DeliveryOrderHandler()
+    ];
 
-// Створюємо об'єкт обробника замовлення та генератора звіту
-$orderHandler = new ProductOrderHandler();
-$reportGenerator = new PDFReportGenerator();
+    $generators = [
+        'product' => new PDFReportGenerator(),
+        'service' => new CSVReportGenerator(),
+        'delivery' => new PDFReportGenerator()
+    ];
 
-// Створюємо об'єкт процесора замовлення
-$orderProcessor = new OrderProcessor();
+    // Вибираємо обробник замовлення залежно від типу замовлення
+    $orderType = $order->getType();
+    $orderHandler = $handlers[$orderType] ?? exit('Помилка! Тип замовлення не визначено або не знайдено відповідного обробника.');
 
-// Налаштовуємо процесор замовлення з обраними обробником та генератором звіту
-$orderProcessor->setOrderHandler($orderHandler);
-$orderProcessor->setReportGenerator($reportGenerator);
+    // Вибираємо генератор звіту залежно від типу замовлення
+    $reportGenerator = $generators[$orderType] ?? exit('Помилка! Тип замовлення не визначено або не знайдено відповідного генератора.');
 
-// Обробляємо замовлення
-$orderProcessor->processOrder($order);
+    // Обробка замовлення за допомогою хендлера
+    $orderHandler->processOrder($order);
 
-// Виводимо інформацію про замовлення
-$orderProcessor->displayOrderInfo($order);
+    // Генерація звіту за допомогою генератора
+    $reportGenerator->generateReport($order);
+}
+
+// Приклади
+
+$order1 = new Order(1, 'product', 'Дані про замовлення на товар');
+$order2 = new Order(2, 'service', 'Дані про замовлення на послугу');
+$order3 = new Order(3, 'delivery', 'Дані про замовлення на доставку');
+
+processOrder($order1);
+processOrder($order2);
+processOrder($order3);
