@@ -118,7 +118,7 @@ class CSVReportGenerator implements ReportGeneratorInterface
 }
 
 // Функція для автоматичної обробки процесів яку треба налаштовувати у разі змін.
-function processOrder(Order $order): void
+function automateOrderProcessing(Order $order): void
 {
     // Масив з відповідностями типів замовлення обробникам та генераторам звіту
     $handlers = [
@@ -147,12 +147,31 @@ function processOrder(Order $order): void
     $reportGenerator->generateReport($order);
 }
 
-// Приклади
-
+// Приклади автоматичної обробки за допомогою функції
 $order1 = new Order(1, 'product', 'Дані про замовлення на товар');
 $order2 = new Order(2, 'service', 'Дані про замовлення на послугу');
 $order3 = new Order(3, 'delivery', 'Дані про замовлення на доставку');
 
-processOrder($order1);
-processOrder($order2);
-processOrder($order3);
+automateOrderProcessing($order1);
+automateOrderProcessing($order2);
+automateOrderProcessing($order3);
+
+// Приклад звичайної обробки
+$order4 = new Order(4, 'product', 'Дані про замовлення на товар');
+
+// Створюємо об'єкти обробника замовлення та генератора звіту
+$orderHandler = new ProductOrderHandler();
+$reportGenerator = new PDFReportGenerator();
+
+// Створюємо об'єкт процесора замовлення
+$orderProcessor = new OrderProcessor();
+$orderProcessor->setOrderHandler($orderHandler);
+$orderProcessor->setReportGenerator($reportGenerator);
+
+// Обробляємо замовлення та генеруємо звіт
+$orderProcessor->processOrder($order4);
+
+// Виводимо інформацію про замовлення
+$orderProcessor->displayOrderInfo($order4);
+
+
