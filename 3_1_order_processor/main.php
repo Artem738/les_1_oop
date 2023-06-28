@@ -134,11 +134,10 @@ function automateOrderProcessing(Order $order): void
     ];
 
     // Вибираємо обробник замовлення залежно від типу замовлення
-    $orderType = $order->getType();
-    $orderHandler = $handlers[$orderType] ?? exit('Помилка! Тип замовлення не визначено або не знайдено відповідного обробника.');
+    $orderHandler = $handlers[$order->getType()] ?? exit('Помилка! Тип замовлення не визначено або не знайдено відповідного обробника.');
 
     // Вибираємо генератор звіту залежно від типу замовлення
-    $reportGenerator = $generators[$orderType] ?? exit('Помилка! Тип замовлення не визначено або не знайдено відповідного генератора.');
+    $reportGenerator = $generators[$order->getType()] ?? exit('Помилка! Тип замовлення не визначено або не знайдено відповідного генератора.');
 
     // Обробка замовлення за допомогою хендлера
     $orderHandler->processOrder($order);
