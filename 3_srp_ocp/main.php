@@ -135,7 +135,7 @@ class CSVFileWriter implements FileWriterInterface
 
 class FileReader
 {
-    public static function readFile($fileReader, string $filename): string
+    public static function readFile(FileReaderInterface $fileReader, string $filename): string
     {
         return $fileReader->readFile($filename);
     }
@@ -143,7 +143,7 @@ class FileReader
 
 class FileWriter
 {
-    public static function writeFile($fileWriter, string $filename, string $data): bool
+    public static function writeFile(FileWriterInterface $fileWriter, string $filename, string $data): bool
     {
         return $fileWriter->writeFile($filename, $data);
     }
