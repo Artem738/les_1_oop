@@ -7,6 +7,6 @@ Lesson #2 - Object-Oriented-Programming
 > 
 Lesson #3 - SOLID - OCP and SRP
 > 3_srp_ocp - Перший приклад не дуже вдалого об'єднаня двох частин коду  
-> 3_order_processor - Обробка Order більш вдалий як на мою думку   
+> 3_1_order_processor - Обробка Order більш вдалий як на мою думку   
 > 
     
