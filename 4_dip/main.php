@@ -71,18 +71,19 @@ class Database implements UserRepositoryInterface
     public function __construct(
         protected string $dbName,
     ) {
-        echo 'Підєднуємся до Бази Даних з ім\'ям ' . $this->dbName . PHP_EOL; //  може це треба робити в іншому місці?
+        /**  Може це треба робити в іншому місці? Але я зробив тут, щоб приклад красиво виглядав. */
+        echo 'Підєднуємся до Бази Даних з ім\'ям ' . $this->dbName . PHP_EOL;
     }
 
     public function insert(UserData $userData): bool
     {
         // Логіка вставки користувача в базу даних
+        echo 'Користувача з ім\'ям ' . $userData->getName() . ' додано до бази даних.' . PHP_EOL;
         return true;
     }
 
     public function findById(int $id): ?UserData
     {
-        //  користувача за ідентифікатором в базі даних
         // Логіка пошуку, повертає об'єкт UserData або null, якщо користувач не знайдений
         return null;
     }
@@ -142,8 +143,8 @@ $userService = new UserService(
 $result = $userService->registerUser($userData);
 
 if ($result) {
-    echo 'Користувача успішно зареєстровано.'. PHP_EOL;
+    echo 'Все пройшло успішно. Користувача успішно зареєстровано.'. PHP_EOL;
 } else {
-    echo 'Помилка при реєстрації користувача.'. PHP_EOL;
+    echo 'Помилка у системі реєстрації користувача. Дивіться у логи...'. PHP_EOL;
 }
 
