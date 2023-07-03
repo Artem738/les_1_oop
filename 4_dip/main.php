@@ -31,8 +31,6 @@ class UserData
     {
         return $this->phone;
     }
-
-
 }
 
 class UserService
@@ -54,7 +52,6 @@ class UserService
     }
 }
 
-
 interface UserRepositoryInterface
 {
     public function insert(UserData $userData): bool;
@@ -68,11 +65,11 @@ interface UserRepositoryInterface
 
 class Database implements UserRepositoryInterface
 {
-    public function __construct(
-        protected string $dbName,
-    ) {
-        /**  Може це треба робити в іншому місці? Але я зробив тут, щоб приклад красиво виглядав. */
-        echo 'Підєднуємся до Бази Даних з ім\'ям ' . $this->dbName . PHP_EOL;
+    protected string $dbName = 'users';
+
+    public function __construct()
+    {
+        echo 'Підєднуємся до Бази Даних - ' . $this->dbName . PHP_EOL; // Тимчасове рішення.
     }
 
     public function insert(UserData $userData): bool
@@ -100,7 +97,6 @@ class Database implements UserRepositoryInterface
         return true;
     }
 }
-
 
 interface EmailServiceInterface
 {
@@ -136,15 +132,15 @@ class SMSService implements SMSServiceInterface
 $userData = new UserData(1, 'Vasiliy', 'password123', 'vasvas111@gmail.com', '+380631234567');
 
 $userService = new UserService(
-    new Database('users'),
+    new Database(),
     new EmailService(),
     new SMSService(),
 );
 $result = $userService->registerUser($userData);
 
 if ($result) {
-    echo 'Все пройшло успішно. Користувача успішно зареєстровано.'. PHP_EOL;
+    echo 'Все пройшло успішно. Користувача успішно зареєстровано.' . PHP_EOL;
 } else {
-    echo 'Помилка у системі реєстрації користувача. Дивіться у логи...'. PHP_EOL;
+    echo 'Помилка у системі реєстрації користувача. Дивіться у логи...' . PHP_EOL;
 }
 
