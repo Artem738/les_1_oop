@@ -134,7 +134,6 @@ class UserService
 
     public function deleteUser(UserData $userData): bool
     {
-
         $isUserDeleted = $this->userRepository->delete($userData->getId());
         $isEmailSent = $this->emailService->sendAccountDeletedEmail($userData);
         $isSMSSent = $this->smsService->sendSMS($userData, 'Ваш обліковий запис було видалено.');
