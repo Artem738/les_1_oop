@@ -82,8 +82,6 @@ class Database implements UserRepositoryInterface
 interface EmailServiceInterface
 {
     public function sendWelcomeEmail(UserData $userData): bool;
-
-    public function sendAccountDeletedEmail(UserData $userData): bool;
 }
 
 class EmailService implements EmailServiceInterface
@@ -91,12 +89,6 @@ class EmailService implements EmailServiceInterface
     public function sendWelcomeEmail(UserData $userData): bool
     {
         echo 'Лист "ласкаво просимо" відправлено на адресу: ' . $userData->getEmail() . PHP_EOL;
-        return true;
-    }
-
-    public function sendAccountDeletedEmail(UserData $userData): bool
-    {
-        echo 'Лист "акаунт видалено" відправлено на адресу: ' . $userData->getEmail() . PHP_EOL;
         return true;
     }
 }
@@ -133,14 +125,6 @@ class UserService
         return $isUserInserted && $isEmailSent && $isSMSSent;
     }
 
-    public function deleteUser(UserData $userData): bool
-    {
-        $isUserDeleted = $this->userRepository->delete($userData->getId());
-        $isEmailSent = $this->emailService->sendAccountDeletedEmail($userData);
-        $isSMSSent = $this->smsService->sendSMS($userData, 'Ваш обліковий запис було видалено.');
-
-        return $isUserDeleted && $isEmailSent && $isSMSSent;
-    }
 }
 
 
@@ -159,13 +143,5 @@ if ($result) {
     echo 'Помилка у системі реєстрації користувача. Дивіться у логи...' . PHP_EOL;
 }
 
-
-$result = $userService->deleteUser($userData);
-
-if ($result) {
-    echo 'Користувача видалено.' . PHP_EOL;
-} else {
-    echo 'Помилка у системі видалення користувача. Дивіться у логи...' . PHP_EOL;
-}
 
 
