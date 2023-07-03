@@ -94,6 +94,7 @@ class DeliveryOrderHandler implements OrderHandlerInterface
     {
         echo "Обробка замовлення на доставку з типом " . $order->getType() . PHP_EOL;
     }
+
 }
 
 interface ReportGeneratorInterface
