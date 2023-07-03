@@ -1,6 +1,5 @@
 <?php
 
-
 class UserData
 {
     public function __construct(
@@ -30,34 +29,6 @@ class UserData
     public function getPhone(): string
     {
         return $this->phone;
-    }
-}
-
-class UserService
-{
-    public function __construct(
-        protected UserRepositoryInterface $userRepository,
-        protected EmailServiceInterface   $emailService,
-        protected SMSServiceInterface     $smsService,
-    ) {
-    }
-
-    public function registerUser(UserData $userData): bool
-    {
-        $isUserInserted = $this->userRepository->insert($userData);
-        $isEmailSent = $this->emailService->sendWelcomeEmail($userData);
-        $isSMSSent = $this->smsService->sendSMS($userData, 'Вітаємо з реєстрацією!');
-
-        return $isUserInserted && $isEmailSent && $isSMSSent;
-    }
-    public function deleteUser(UserData $userData): bool
-    {
-
-        $isUserDeleted = $this->userRepository->delete($userData->getId());
-        $isEmailSent = $this->emailService->sendAccountDeletedEmail($userData);
-        $isSMSSent = $this->smsService->sendSMS($userData, 'Ваш обліковий запис було видалено.');
-
-        return $isUserDeleted && $isEmailSent && $isSMSSent;
     }
 }
 
@@ -110,6 +81,7 @@ class Database implements UserRepositoryInterface
 interface EmailServiceInterface
 {
     public function sendWelcomeEmail(UserData $userData): bool;
+
     public function sendAccountDeletedEmail(UserData $userData): bool;
 }
 
@@ -120,6 +92,7 @@ class EmailService implements EmailServiceInterface
         echo 'Лист "ласкаво просимо" відправлено на адресу: ' . $userData->getEmail() . PHP_EOL;
         return true;
     }
+
     public function sendAccountDeletedEmail(UserData $userData): bool
     {
         echo 'Лист "акаунт видалено" відправлено на адресу: ' . $userData->getEmail() . PHP_EOL;
@@ -138,6 +111,35 @@ class SMSService implements SMSServiceInterface
     {
         echo 'SMS  "' . $message . '" відправлено на номер ' . $userData->getPhone() . PHP_EOL;
         return true;
+    }
+}
+
+class UserService
+{
+    public function __construct(
+        protected UserRepositoryInterface $userRepository,
+        protected EmailServiceInterface   $emailService,
+        protected SMSServiceInterface     $smsService,
+    ) {
+    }
+
+    public function registerUser(UserData $userData): bool
+    {
+        $isUserInserted = $this->userRepository->insert($userData);
+        $isEmailSent = $this->emailService->sendWelcomeEmail($userData);
+        $isSMSSent = $this->smsService->sendSMS($userData, 'Вітаємо з реєстрацією!');
+
+        return $isUserInserted && $isEmailSent && $isSMSSent;
+    }
+
+    public function deleteUser(UserData $userData): bool
+    {
+
+        $isUserDeleted = $this->userRepository->delete($userData->getId());
+        $isEmailSent = $this->emailService->sendAccountDeletedEmail($userData);
+        $isSMSSent = $this->smsService->sendSMS($userData, 'Ваш обліковий запис було видалено.');
+
+        return $isUserDeleted && $isEmailSent && $isSMSSent;
     }
 }
 
