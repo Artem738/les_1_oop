@@ -33,6 +33,26 @@ class UserData
     }
 }
 
+class UserService
+{
+    public function __construct(
+        protected UserRepositoryInterface $userRepository,
+        protected EmailServiceInterface   $emailService,
+        protected SMSServiceInterface     $smsService,
+    ) {
+    }
+
+    public function registerUser(UserData $userData): bool
+    {
+        $isUserInserted = $this->userRepository->insert($userData);
+        $isEmailSent = $this->emailService->sendWelcomeEmail($userData);
+        $isSMSSent = $this->smsService->sendSMS($userData, 'Вітаємо з реєстрацією!');
+
+        return $isUserInserted && $isEmailSent && $isSMSSent;
+    }
+
+}
+
 interface UserRepositoryInterface
 {
     public function insert(UserData $userData): bool;
@@ -105,26 +125,6 @@ class SMSService implements SMSServiceInterface
         echo 'SMS  "' . $message . '" відправлено на номер ' . $userData->getPhone() . PHP_EOL;
         return true;
     }
-}
-
-class UserService
-{
-    public function __construct(
-        protected UserRepositoryInterface $userRepository,
-        protected EmailServiceInterface   $emailService,
-        protected SMSServiceInterface     $smsService,
-    ) {
-    }
-
-    public function registerUser(UserData $userData): bool
-    {
-        $isUserInserted = $this->userRepository->insert($userData);
-        $isEmailSent = $this->emailService->sendWelcomeEmail($userData);
-        $isSMSSent = $this->smsService->sendSMS($userData, 'Вітаємо з реєстрацією!');
-
-        return $isUserInserted && $isEmailSent && $isSMSSent;
-    }
-
 }
 
 
