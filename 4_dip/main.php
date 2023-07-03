@@ -50,6 +50,15 @@ class UserService
 
         return $isUserInserted && $isEmailSent && $isSMSSent;
     }
+    public function deleteUser(UserData $userData): bool
+    {
+
+        $isUserDeleted = $this->userRepository->delete($userData->getId());
+        $isEmailSent = $this->emailService->sendAccountDeletedEmail($userData);
+        $isSMSSent = $this->smsService->sendSMS($userData, 'Ваш обліковий запис було видалено.');
+
+        return $isUserDeleted && $isEmailSent && $isSMSSent;
+    }
 }
 
 interface UserRepositoryInterface
@@ -101,14 +110,19 @@ class Database implements UserRepositoryInterface
 interface EmailServiceInterface
 {
     public function sendWelcomeEmail(UserData $userData): bool;
+    public function sendAccountDeletedEmail(UserData $userData): bool;
 }
 
 class EmailService implements EmailServiceInterface
 {
     public function sendWelcomeEmail(UserData $userData): bool
     {
-        // Логика отправки приветственного письма электронной почтой
-        echo 'Повідомлення "ласкаво просимо" відправлено на адресу: ' . $userData->getEmail() . PHP_EOL;
+        echo 'Лист "ласкаво просимо" відправлено на адресу: ' . $userData->getEmail() . PHP_EOL;
+        return true;
+    }
+    public function sendAccountDeletedEmail(UserData $userData): bool
+    {
+        echo 'Лист "акаунт видалено" відправлено на адресу: ' . $userData->getEmail() . PHP_EOL;
         return true;
     }
 }
@@ -122,7 +136,6 @@ class SMSService implements SMSServiceInterface
 {
     public function sendSMS(UserData $userData, string $message): bool
     {
-        // Логика отправки сообщения на мобильный телефон
         echo 'SMS  "' . $message . '" відправлено на номер ' . $userData->getPhone() . PHP_EOL;
         return true;
     }
@@ -139,8 +152,18 @@ $userService = new UserService(
 $result = $userService->registerUser($userData);
 
 if ($result) {
-    echo 'Все пройшло успішно. Користувача успішно зареєстровано.' . PHP_EOL;
+    echo 'Користувача зареєстровано.' . PHP_EOL;
 } else {
     echo 'Помилка у системі реєстрації користувача. Дивіться у логи...' . PHP_EOL;
 }
+
+
+$result = $userService->deleteUser($userData);
+
+if ($result) {
+    echo 'Користувача видалено.' . PHP_EOL;
+} else {
+    echo 'Помилка у системі видалення користувача. Дивіться у логи...' . PHP_EOL;
+}
+
 
